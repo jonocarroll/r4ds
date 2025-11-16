@@ -5,45 +5,113 @@
 source("_common.R")
 ```
 
-You now have some experience running R code.
+You now have some experience running Haskell code.
 We didn't give you many details, but you've obviously figured out the basics, or you would've thrown this book away in frustration!
-Frustration is natural when you start programming in R because it is such a stickler for punctuation, and even one character out of place can cause it to complain.
+Frustration is natural when you start programming in Haskell because it is such a stickler for types, and sometimes you *know* what you want but haven't specified it sufficiently.
 But while you should expect to be a little frustrated, take comfort in that this experience is typical and temporary: it happens to everyone, and the only way to get over it is to keep trying.
 
-Before we go any further, let's ensure you've got a solid foundation in running R code and that you know some of the most helpful RStudio features.
+Before we go any further, let's ensure you've got a solid foundation in running Haskell code and that you know some of the most helpful features, as well as differences between Haskell and R.
 
 ## Coding basics
 
 Let's review some basics we've omitted so far in the interest of getting you plotting as quickly as possible.
-You can use R to do basic math calculations:
+You can use Haskell to do basic math calculations:
+
+::: panel-tabset
+### Haskell
+
+```{haskell}
+1 / 200 * 30
+```
+
+```{haskell}
+(59 + 73 + 2) / 3.0
+```
+
+```{haskell}
+sin $ pi / 2
+```
+
+Here the first differences to R already appear.
+Function evaluation in Haskell is performed with a space, so `sin(pi)` in R becomes `sin pi` in Haskell.
+In order to distinguish which arguments go with which function we can use parentheses, e.g. `sin (pi/2)` but take careful note here - these parentheses aren't for function evaluation, but rather for indicating that `pi/2` should be calculated first.
+An alternative way to write "parenthesise everything to the right" is to use `$`.
+
+### R
 
 ```{r}
 1 / 200 * 30
 (59 + 73 + 2) / 3
 sin(pi / 2)
 ```
+:::
 
-You can create new objects with the assignment operator `<-`:
+You can create new objects with the assignment operator `=`:
+
+::: panel-tabset
+### Haskell
+
+```{haskell}
+x = 3 * 4
+```
+
+### R
+
+R uses the assignment operator `<-`
 
 ```{r}
 x <- 3 * 4
 ```
+:::
 
 Note that the value of `x` is not printed, it's just stored.
-If you want to view the value, type `x` in the console.
+If you want to view the value, type `x` in ghci.
 
-You can **c**ombine multiple elements into a vector with `c()`:
+You can combine multiple elements into a 'vector' with a list, encased in `[]`:
+
+::: panel-tabset
+### Haskell
+
+```{haskell}
+primes = [2, 3, 5, 7, 11, 13]
+primes
+```
+
+### R
 
 ```{r}
 primes <- c(2, 3, 5, 7, 11, 13)
+primes
+```
+:::
+
+Since Haskell is not an array language, we need to explicitly apply operations to every element of a list with a `map`.
+This takes a (curried) function (one which is "waiting" for an argument to be applied)
+
+::: panel-tabset
+### Haskell
+
+```{haskell}
+primes = [2, 3, 5, 7, 11, 13]
+map (*2) primes
 ```
 
-And basic arithmetic on vectors is applied to every element of the vector:
+```{haskell}
+primes = [2, 3, 5, 7, 11, 13]
+map (subtract 1) primes
+```
+
+`subtract` is used here because `(-1)` is treated as the *value* `-1` not the operation 'subtract 1'.
+
+### R
+
+In R, basic arithmetic on vectors is applied to every element of the vector
 
 ```{r}
 primes * 2
 primes - 1
 ```
+:::
 
 All R statements where you create objects, **assignment** statements, have the same form:
 
@@ -253,3 +321,4 @@ knitr::include_graphics("screenshots/rstudio-env.png")
 
 Now that you've learned a little more about how R code works, and some tips to help you understand your code when you come back to it in the future.
 In the next chapter, we'll continue your data science journey by teaching you about dplyr, the tidyverse package that helps you transform data, whether it's selecting important variables, filtering down to rows of interest, or computing summary statistics.
+:::

@@ -23,6 +23,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set up Haskell
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: '8.8' # Resolves to the latest point release of GHC 8.8
+          cabal-version: '3.0.0.0' # Exact version of Cabal
+
+      - name: Install dataframe
+        run: |
+          cabal install dataframe
+
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:

@@ -59,3 +59,16 @@ status <- function(type) {
     "::::\n"
   ))
 }
+
+knitr::knit_engines$set(haskell = function(options) {
+  code <- paste(options$code, collapse = '\n')
+  codefile <- tempfile(fileext = ".hs")
+  on.exit(file.remove(codefile))
+  writeLines(c(":set +m", ":set -XOverloadedStrings", "", options$code), con = codefile)
+  out  <- system2(
+    file.path(path.expand('~'), '.ghcup/bin/ghc'),
+    c('-package dataframe', '-e',"':script ", codefile, "'"),
+    stdout = TRUE
+  )
+  knitr::engine_output(options, code, out)
+})
